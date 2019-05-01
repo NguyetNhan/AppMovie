@@ -1,0 +1,6 @@
+export const LIKE_FILM = 'LIKE_FILM'
+export const XEM_FILM = 'XEM_FILM'
+export const FETCH_FILM = 'FETCH_FILM'
+
+export const FETCH_FILM_SUCCEEDED = 'FETCH_FILM_SUCCEEDED'
+export const FETCH_FILM_FAILED = 'FETCH_FILM_FAILED'
