@@ -16,7 +16,8 @@ class MyItemFlatlist extends Component {
             description: this.props.description,
             views: this.props.views,
             liked: this.props.liked,
-            urlImageLike: this.props.urlImageLike
+            urlImageLike: this.props.urlImageLike,
+            textButtonLike:this.props.textButtonLike
         }
     }
 
@@ -32,6 +33,7 @@ class MyItemFlatlist extends Component {
             views: nextProps.views,
             liked: nextProps.liked,
             urlImageLike: nextProps.urlImageLike,
+            textButtonLike: nextProps.textButtonLike
         })
     }
 
@@ -68,7 +70,7 @@ class MyItemFlatlist extends Component {
                                     }}
                                 ><Image source={this.state.urlImageLike} style={{ width: 15, height: 15 }}></Image>
                                 </TouchableWithoutFeedback>
-                                <Text style={style.textLike}>Thich</Text>
+                                <Text style={style.textLike}>{this.state.textButtonLike}</Text>
                             </View>
                             <TouchableOpacity style={style.buttonView}
 
@@ -103,6 +105,7 @@ export default class ListFilmComponent extends Component {
         for (i = 0; i < nextProps.movies.data.length; i++) {
             nextProps.movies.data[i].liked = false
             nextProps.movies.data[i].urlImageLike = require('../../../assets/images/ic_like.png')
+            nextProps.movies.data[i].textButtonLike = 'Thích'
         }
         this.setState({
             valuesListMovies: this.state.valuesListMovies.concat(nextProps.movies.data),
@@ -134,10 +137,12 @@ export default class ListFilmComponent extends Component {
                 if (listMovies[i].liked) {
                     movie.liked = false
                     movie.urlImageLike = require('../../../assets/images/ic_like.png')
+                    movie.textButtonLike = 'Thích'
                     listMovies[i] = movie
                 } else {
                     movie.liked = true
                     movie.urlImageLike = require('../../../assets/images/ic_like_orange.png')
+                    movie.textButtonLike = 'Đã thích'
                     listMovies[i] = movie
                 }
                 this.setState({
@@ -174,6 +179,7 @@ export default class ListFilmComponent extends Component {
                                     liked={item.item.liked}
                                     urlImageLike={item.item.urlImageLike}
                                     onClickButtonLike={this.onClickButtonLike}
+                                    textButtonLike = {item.item.textButtonLike}
                                 />
                             )
                         }}
