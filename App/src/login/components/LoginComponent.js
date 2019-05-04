@@ -8,16 +8,24 @@ export default class LoginComponent extends Component {
         super(props);
         this.state = {
             email: 'nhan123@gmail.com',
-            password: '',
+            password: '123456',
             user: '',
             onLoading: false
         }
+        this.onSignIn=this.onSignIn.bind(this)
     }
 
     // nhận dữ liệu từ container
     componentWillReceiveProps(nextProps) {
+        //   console.log(' nhận dữ liệu từ container = ', nextProps.user);
         this.setState({
             user: nextProps.user
+        })
+    }
+
+    componentWillMount() {
+        this.setState({
+            email: this.props.navigation.getParam('email', 'nhan123@gmail.com')
         })
     }
 
@@ -26,18 +34,23 @@ export default class LoginComponent extends Component {
         this.setState({
             onLoading: true
         })
-        let user = this.state.user
         setTimeout(() => {
             this.setState({
                 onLoading: false
-            }), this.props.navigation.navigate('ListFilm')
+            })
+            console.log('login = ', this.state.user.error)
+            if (!this.state.user.error) {
+                console.log('chuyen man hinh = ', this.state.user.data)
+                this.props.navigation.navigate('ListFilm', {
+                    user: this.state.user.data
+                })
+            } else {
+                alert(JSON.stringify(this.state.user.message))
+            }
         }, 1000);
-
     }
 
     render() {
-        const {navigation}= this.props
-        const email = navigation.getParam('email','')
         return (
             <View style={style.container}>
                 <Loader
@@ -58,7 +71,7 @@ export default class LoginComponent extends Component {
                                     }
                                 })
                             }}
-                            value={email}
+                            value={this.state.email}
                         ></TextInput>
                         <TextInput placeholder="Mật khẩu"
                             style={style.textInput}
@@ -94,7 +107,7 @@ export default class LoginComponent extends Component {
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'center', marginBottom: 10 }}>
                         <Text style={{ textAlign: 'center', fontFamily: 'OpenSans-Regular', color: 'white' }}>Bạn chưa có tài khoản?</Text>
-                        <Text onPress={()=>{  this.props.navigation.navigate('Register')}} style={{ textAlign: 'center', fontFamily: 'OpenSans-Regular', color: '#fe5f01', textDecorationLine: 'underline' }}>ĐĂNG KÝ</Text>
+                        <Text onPress={() => { this.props.navigation.navigate('Register') }} style={{ textAlign: 'center', fontFamily: 'OpenSans-Regular', color: '#fe5f01', textDecorationLine: 'underline' }}>ĐĂNG KÝ</Text>
                     </View>
                 </ImageBackground>
             </View >

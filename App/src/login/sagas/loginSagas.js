@@ -6,7 +6,7 @@ import { Api } from './Api';
 function* signInMovies(action) {
   try {
     const data = yield Api.signInFromApi(action.user)
-    console.log('data = ',data);
+ //   console.log('data = ',data);
     yield put({ type: SignInSucceeded, receiverSignIn: data })
   } catch (error) {
     yield put({ type: SignInFailed, error: error })

@@ -20,22 +20,14 @@ import rootSaga from './src/sagas/rootSaga';
 import ListFilm from './src/home/containers/ListFilmContainer';
 import Login from './src/login/containers/LoginContainer';
 import Register from './src/register/containers/RegisterContainer';
+import DetailFilm from './src/detail_film/components/DetailFilmComponent';
 
 const AppNavigator = createStackNavigator({
   ListFilm: {
     screen: ListFilm,
-    navigationOptions: {
-      title: 'HFILM',
-      headerStyle: {
-          backgroundColor: '#f4511e',
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-          fontWeight: 'bold',
-          textAlign:"center", 
-          flex:1 
-      },
-    },
+  },
+  DetailFilm: {
+    screen: DetailFilm,
   },
   Login: {
     screen: Login,

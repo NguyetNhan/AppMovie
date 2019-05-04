@@ -1,6 +1,7 @@
 const urlSignIn = "http://training-movie.bsp.vn:82/user/login";
 
 function* signInFromApi(user) {
+  //  console.log(user.email,user.password);
     const response = yield fetch(`${urlSignIn}?email=${user.email}&password=${user.password}`, {
         method: "POST",
         headers: {
