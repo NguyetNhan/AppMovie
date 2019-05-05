@@ -1,120 +1,13 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, Text, TouchableOpacity, ImageBackground, FlatList, StatusBar } from 'react-native';
-import { StackActions, NavigationActions } from 'react-navigation';
-//import ItemFilmComponent from './ItemFilmComponent';
+import { View, StyleSheet, ImageBackground, FlatList, StatusBar } from 'react-native';
+
 
 import { fetchFilm, likeFilm, xemFilm } from '../actions/index';
 
-class MyItemFlatlist extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            movieId: this.props.movieId,
-            imageMovie: this.props.imageMovie,
-            title: this.props.title,
-            description: this.props.description,
-            views: this.props.views,
-            liked: this.props.liked,
-            urlImageLike: this.props.urlImageLike,
-            textButtonLike: this.props.textButtonLike,
-            colorTextLike: this.props.colorTextLike
-        }
-        this.onSearchTitleEnglish = this.onSearchTitleEnglish.bind(this)
-        this.onSearchTitleVN = this.onSearchTitleVN.bind(this)
-    }
-
-
-    componentWillReceiveProps(nextProps) {
-        //  console.log("componentWillReceiveProps", nextProps.movieId);
-        this.setState({
-            movieId: nextProps.movieId,
-            imageMovie: nextProps.imageMovie,
-            title: nextProps.title,
-            description: nextProps.description,
-            views: nextProps.views,
-            liked: nextProps.liked,
-            urlImageLike: nextProps.urlImageLike,
-            textButtonLike: nextProps.textButtonLike,
-            colorTextLike: nextProps.colorTextLike
-        })
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        //  console.log('shouldComponentUpdate', nextState.liked);
-        const liked = nextState.liked
-        const oldLiked = this.state.liked
-
-        // If "liked" or "likeCount" is different, then update
-        return liked !== oldLiked
-    }
-
-    onSearchTitleEnglish(value) {
-        var pos = value.lastIndexOf("/");
-        // console.log('vi tri dau / = ',pos);
-        if (pos > -1) {
-            return value.slice(0, pos)
-        } else {
-            return value
-        }
-    }
-
-    onSearchTitleVN(value) {
-        var pos = value.lastIndexOf("/");
-
-        // console.log('vi tri dau / = ',pos);
-        if (pos > -1) {
-            return value.slice(pos + 2)
-        } else {
-            return value
-        }
-    }
-
-    render() {
-        return (
-            <View style={{ flex: 1, flexDirection: 'column' }}>
-                <View style={style.container}>
-                    <Image
-                        style={style.image}
-                        source={{ uri: this.state.imageMovie }}
-                    ></Image>
-                    <View style={style.content}>
-                        <Text style={style.titleEnglish}>{this.onSearchTitleEnglish(this.state.title)}</Text>
-                        <Text style={style.titleVN}>{this.onSearchTitleVN(this.state.title)}</Text>
-                        <Text style={style.textView}>Lượt xem: {this.state.views}</Text>
-                        <Text
-                            style={style.textContent}
-                            numberOfLines={4}
-                        >{this.state.description}</Text>
-                        <View style={style.containerButton}>
-                            <View style={style.containerButton}>
-                                <TouchableOpacity
-                                    onPress={() => {
-                                        this.props.onClickButtonLike(this.state.movieId)
-                                    }}
-                                ><Image source={this.state.urlImageLike} style={{ width: 18, height: 15 }}></Image>
-                                </TouchableOpacity>
-                                <Text style={{
-                                    color: `${this.state.colorTextLike}`,
-                                    marginLeft: 5,
-                                    fontSize: 15
-                                }}>{this.state.textButtonLike}</Text>
-                            </View>
-                            <TouchableOpacity style={style.buttonView}
-                                onPress={() => {
-                                    this.props.onClickButtonWatchMovie(this.state.movieId)
-                                }}
-                            ><Text style={style.textButton}>Xem phim</Text></TouchableOpacity>
-                        </View>
-                    </View>
-                </View>
-                <View style={{ height: 1, backgroundColor: '#c68368' }}></View>
-            </View>
-        )
-    }
-}
-
+import MyItemFlatlist from './MyItemFlatlist';
 
 export default class ListFilmComponent extends Component {
+    userId = null
     static navigationOptions = ({ navigation }) => {
         return {
             title: 'HFILM',
@@ -130,6 +23,7 @@ export default class ListFilmComponent extends Component {
             },
         }
     }
+
     constructor(props) {
         super(props)
         this.state = {
@@ -137,23 +31,18 @@ export default class ListFilmComponent extends Component {
             isFetching: false,
             current_page: 1,
             total_pages: 1,
-            user:  this.props.navigation.getParam('user',null)
+            user: null
         }
         this.onClickButtonLike = this.onClickButtonLike.bind(this)
         this.onClickButtonWatchMovie = this.onClickButtonWatchMovie.bind(this)
         this.onSearchTitleEnglish = this.onSearchTitleEnglish.bind(this)
+
     }
+
     componentDidMount() {
         this.props.onFetchFilm(1)
     }
 
-    // nhận dữ liệu từ màn hình login chuyển qua
-    /* componentWillMount() {
-        this.setState({
-            user: this.props.navigation.getParam('user',null)
-        })
-        console.log('nhan uer = ',this.state.user);
-    } */
 
     // nhận dữ liệu từ container mapStateToProps
     componentWillReceiveProps(nextProps) {
@@ -166,9 +55,8 @@ export default class ListFilmComponent extends Component {
         this.setState({
             valuesListMovies: this.state.valuesListMovies.concat(nextProps.movies.data),
             isFetching: nextProps.isLoading,
-
             // nhận dữ liệu từ màn hình login
-            user: this.props.navigation.getParam('user',null)
+            user: this.props.navigation.getParam('user', null)
         });
     }
 
@@ -186,14 +74,15 @@ export default class ListFilmComponent extends Component {
             return
     }
 
+    // nút like chưa chuyển đổi do không thực hiện được các lệnh bên trong
     onClickButtonLike(movieId) {
-        if (this.state.user == null) {
-            console.log(this.state.user);
+        console.log('nhan uer = ', userId)
+        if (userId==null) {
+            console.log('chua co user ', userId);
             this.props.navigation.navigate('Login')
         } else {
-            console.log('da co user ',this.state.user);
-            //   console.log('id movie = ',movieId);
             var listMovies = this.state.valuesListMovies
+              console.log('da co user ',userId);
             for (i = 0; i < listMovies.length; i++) {
                 if (listMovies[i].id == movieId) {
                     var movie = listMovies[i];
@@ -215,12 +104,12 @@ export default class ListFilmComponent extends Component {
                     })
                 }
             }
+               console.log('id movie = ',movieId);
         }
 
     }
 
     // button xem phim
-
     onClickButtonWatchMovie(movieId) {
         var listMovies = this.state.valuesListMovies
         for (i = 0; i < listMovies.length; i++) {
@@ -246,6 +135,9 @@ export default class ListFilmComponent extends Component {
 
 
     render() {
+        const { navigation } = this.props;
+         userId = navigation.getParam('user',null);
+        console.log("nhan tu man hinh ",userId);
         return (
             <ImageBackground source={require('../../../assets/images/bg.png')} style={{ width: '100%', height: '100%' }}>
                 {/* đổi màu thanh trạng thái */}
@@ -280,6 +172,7 @@ export default class ListFilmComponent extends Component {
                                     textButtonLike={item.item.textButtonLike}
                                     onClickButtonWatchMovie={this.onClickButtonWatchMovie}
                                     colorTextLike={item.item.colorTextLike}
+                                 //   userLogin = {userLogin}
                                 />
                             )
                         }}
