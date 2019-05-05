@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground,StatusBar } from 'react-native';
 // import loadding
 import Loader from '../../components/loader';
 
@@ -53,6 +53,10 @@ export default class LoginComponent extends Component {
     render() {
         return (
             <View style={style.container}>
+              <StatusBar
+                    barStyle="light-content"
+                    backgroundColor="#fd6003"
+                />
                 <Loader
                     loading={this.state.onLoading} />
                 <ImageBackground source={require('../../../assets/images/bg.png')} style={{ width: '100%', height: '100%' }}>
@@ -98,7 +102,7 @@ export default class LoginComponent extends Component {
                         <TouchableOpacity
                             onPress={() => {
                                 // event from LoginContainer
-                                this.props.navigation.navigate('ListFilm')
+                                this.props.navigation.navigate('ForgetPassword')
                             }}
                             style={style.buttonForget}>
                             <Text style={style.buttonTextForget}>Quên mật khẩu?</Text>

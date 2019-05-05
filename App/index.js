@@ -21,6 +21,7 @@ import ListFilm from './src/home/containers/ListFilmContainer';
 import Login from './src/login/containers/LoginContainer';
 import Register from './src/register/containers/RegisterContainer';
 import DetailFilm from './src/detail_film/components/DetailFilmComponent';
+import ForgetPassword from './src/forget_password/containers/ForgetPasswordContainer';
 
 const AppNavigator = createStackNavigator({
   ListFilm: {
@@ -41,7 +42,12 @@ const AppNavigator = createStackNavigator({
       header: null,
     },
   },
-  
+  ForgetPassword: {
+    screen: ForgetPassword,
+    navigationOptions: {
+      header: null,
+    },
+  },
   
 }, {
     initialRouteName: 'ListFilm',

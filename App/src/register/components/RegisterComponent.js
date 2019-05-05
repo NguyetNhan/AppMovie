@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground, Image } from 'react-native';
+import { StatusBar,StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground, Image } from 'react-native';
 
 import Loader from '../../components/loader';
 
@@ -60,6 +60,10 @@ export default class RegisterComponent extends Component {
     render() {
         return (
             <ImageBackground source={require('../../../assets/images/bg.png')} style={{ width: '100%', height: '100%' }}>
+               <StatusBar
+                    barStyle="light-content"
+                    backgroundColor="#fd6003"
+                />
                 <View style={style.container}>
                     <Loader
                         loading={this.state.onLoading} />
