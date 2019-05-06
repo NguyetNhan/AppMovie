@@ -93,7 +93,8 @@ export default class MyItemFlatlist extends Component {
                                 <Text style={{
                                     color: `${this.state.colorTextLike}`,
                                     marginLeft: 5,
-                                    fontSize: 15
+                                    fontSize: 15,
+                                    fontFamily: "OpenSans-Regular",
                                 }}>{this.state.textButtonLike}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={style.buttonView}
@@ -130,23 +131,24 @@ const style = StyleSheet.create({
         color: '#fd6003',
         fontSize: 15,
         textTransform: 'none',
-        fontWeight: 'bold'
+        fontFamily: "OpenSans-Bold",
     },
     titleVN: {
         color: 'white',
         fontSize: 15,
         textTransform: 'capitalize',
-        fontWeight: 'bold'
+        fontFamily: "OpenSans-Bold",
     },
     textView: {
         color: '#fea46f',
         fontSize: 13,
-        fontStyle: 'italic',
+        fontFamily: "OpenSans-Italic",
     },
     textContent: {
         color: 'white',
         fontSize: 15,
-        marginVertical: 10
+        marginVertical: 10,
+        fontFamily: "OpenSans-Regular",
     },
     containerButton: {
         flexDirection: 'row',
@@ -170,5 +172,6 @@ const style = StyleSheet.create({
         color: 'white',
         fontSize: 13,
         textAlign: 'center',
+        fontFamily: "OpenSans-Regular",
     }
 })

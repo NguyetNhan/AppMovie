@@ -193,18 +193,21 @@ const style = StyleSheet.create({
     textTitle: {
         fontSize: 25,
         color: 'white',
-        marginBottom: 40
+        marginBottom: 40,
+        fontFamily:'UVN-Baisau-Regular'
     },
     textSuggestions: {
         fontSize: 11,
         color: 'yellow',
-        textAlign: 'left'
+        textAlign: 'left',
+        fontFamily:'OpenSans-Regular'
     },
     textInput: {
         borderBottomWidth: 1,
         borderBottomColor: '#ca736a',
         fontSize: 18,
-        color: 'white'
+        color: 'white',
+        fontFamily:'OpenSans-Regular'
     },
     buttonRegister: {
         backgroundColor: '#fd6003',
@@ -220,17 +223,20 @@ const style = StyleSheet.create({
     textButton: {
         color: 'white',
         textAlign: 'center',
-        fontSize: 20
+        fontSize: 20,
+        fontFamily:'OpenSans-Regular'
     },
     buttonCancel: {
         marginTop: 20
     },
     textDieuKhoan: {
-        color: 'white'
+        color: 'white',
+        fontFamily:'OpenSans-SemiBold'
     },
     textGetDieuKhoan: {
         color: '#fd6003',
-        textDecorationLine: 'underline'
+        textDecorationLine: 'underline',
+        fontFamily:'OpenSans-SemiBold'
     }
 })
 

@@ -13,6 +13,7 @@
     "react-native-webview": "^5.8.1",
     "react-navigation": "^3.9.1",
     "react-redux": "^7.0.3",
+    "realm": "^2.26.1",
     "redux": "^4.0.1",
     "redux-saga": "^1.0.2"
   },
@@ -26,5 +27,10 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "rnpm": {
+    "assets": [
+      "./assets/fonts/"
+    ]
   }
 }

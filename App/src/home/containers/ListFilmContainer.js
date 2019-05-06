@@ -6,7 +6,7 @@ var idMovies;
 
 const mapStateToProps = (state) => {
   
-   // console.log('container = ',state.ListFilmReducer.paging);
+    console.log('container = ',state.ListFilmReducer);
     return {
         movies: state.ListFilmReducer,
         isLoading: false,

@@ -115,7 +115,6 @@ export default class LoginComponent extends Component {
                     </View>
                 </ImageBackground>
             </View >
-
         )
     }
 }
@@ -137,8 +136,7 @@ const style = StyleSheet.create({
     title: {
         fontSize: 30,
         color: 'white',
-        fontWeight: 'bold',
-        fontFamily: '  unicode.display.UVNBaiSau_B',
+        fontFamily:'UVN-Baisau-Regular',
         textAlign: 'center',
         marginBottom: 50
     },

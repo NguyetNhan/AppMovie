@@ -16,10 +16,9 @@ export default class ListFilmComponent extends Component {
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
-                fontWeight: 'bold',
                 textAlign: "center",
+                fontFamily: "UVN-Baisau-Bold",
                 flex: 1,
-                textTransform: 'uppercase',
             },
         }
     }
@@ -40,6 +39,9 @@ export default class ListFilmComponent extends Component {
     }
 
     componentDidMount() {
+        this.setState({
+            isFetching: true
+        })
         this.props.onFetchFilm(1)
     }
 
@@ -61,28 +63,34 @@ export default class ListFilmComponent extends Component {
     }
 
     // chưa xử lí đưa mảng về rỗng
-    onRefresh() {
-        this.setState({ isFetching: true }, function () { this.props.onFetchFilm(1) });
-    }
+    /*  onRefresh() {
+         this.setState({ isFetching: true }, function () { this.props.onFetchFilm(1) });
+     } */
 
     onLoadingMovies() {
-        let page = this.props.movies.paging.current_page
-        let total_pages = this.props.movies.paging.total_pages
-        if (page < total_pages) {
-            this.setState({ isFetching: true }, function () { this.props.onFetchFilm(++this.state.current_page) });
-        } else if (page == total_pages)
+        const page = this.props.movies.paging.current_page
+        //   console.log('page: ', page);
+        const total_pages = this.props.movies.paging.total_pages
+        //   console.log('total_pages: ', total_pages);
+        if (this.state.isFetching) {
             return
+        } else {
+            if (page < total_pages) {
+                this.setState({ isFetching: true }, function () { this.props.onFetchFilm(++this.state.current_page) });
+            } else if (page >= total_pages)
+                return
+        }
     }
 
     // nút like chưa chuyển đổi do không thực hiện được các lệnh bên trong
     onClickButtonLike(movieId) {
         console.log('nhan uer = ', userId)
-        if (userId==null) {
+        if (userId == null) {
             console.log('chua co user ', userId);
             this.props.navigation.navigate('Login')
         } else {
             var listMovies = this.state.valuesListMovies
-              console.log('da co user ',userId);
+            console.log('da co user ', userId);
             for (i = 0; i < listMovies.length; i++) {
                 if (listMovies[i].id == movieId) {
                     var movie = listMovies[i];
@@ -104,7 +112,7 @@ export default class ListFilmComponent extends Component {
                     })
                 }
             }
-               console.log('id movie = ',movieId);
+            console.log('id movie = ', movieId);
         }
 
     }
@@ -136,8 +144,8 @@ export default class ListFilmComponent extends Component {
 
     render() {
         const { navigation } = this.props;
-         userId = navigation.getParam('user',null);
-        console.log("nhan tu man hinh ",userId);
+        userId = navigation.getParam('user', null);
+        console.log("nhan tu man hinh ", userId);
         return (
             <ImageBackground source={require('../../../assets/images/bg.png')} style={{ width: '100%', height: '100%' }}>
                 {/* đổi màu thanh trạng thái */}
@@ -150,11 +158,11 @@ export default class ListFilmComponent extends Component {
                     <FlatList
                         ref="listMovies"
                         //on refresh
-                        onRefresh={() => { this.onRefresh() }}
+                        //    onRefresh={() => { this.onRefresh() }}
                         refreshing={this.state.isFetching}
                         // on loadmore
                         onEndReached={this.onLoadingMovies.bind(this)}
-                        onEndReachedThreshold={0.4}
+                        onEndReachedThreshold={1}
                         extraData={this.state}
                         data={this.state.valuesListMovies}
                         keyExtractor={(item, index) => index.toString()}
@@ -172,7 +180,7 @@ export default class ListFilmComponent extends Component {
                                     textButtonLike={item.item.textButtonLike}
                                     onClickButtonWatchMovie={this.onClickButtonWatchMovie}
                                     colorTextLike={item.item.colorTextLike}
-                                 //   userLogin = {userLogin}
+                                //   userLogin = {userLogin}
                                 />
                             )
                         }}

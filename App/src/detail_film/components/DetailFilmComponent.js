@@ -11,10 +11,10 @@ export default class DetailFilmComponent extends Component {
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
-                fontWeight: 'bold',
                 textAlign: "center",
                 flex: 1,
                 textTransform: 'uppercase',
+                fontFamily:'OpenSans-Bold'
             },
         }
     }
@@ -99,11 +99,11 @@ export default class DetailFilmComponent extends Component {
                             <View style={style.textInfor}>
                                 <Text style={style.textTitle}>{this.onSearchTitleVN(this.state.movie.title)}</Text>
                                 <Text style={style.textViews}>Lượt xem: {this.state.movie.views}</Text>
-                                <Text style={style.textGioiThieu}><Text style={{ fontWeight: "bold" }}>Genres:</Text> {this.state.movie.category}</Text>
-                                <Text style={style.textGioiThieu}><Text style={{ fontWeight: "bold" }}>Actor:</Text> {this.state.movie.actor}</Text>
-                                <Text style={style.textGioiThieu}><Text style={{ fontWeight: "bold" }}>Director:</Text> {this.state.movie.director}</Text>
-                                <Text style={style.textGioiThieu}><Text style={{ fontWeight: "bold" }}>Manufacturer:</Text> {this.state.movie.manufacturer}</Text>
-                                <Text style={style.textGioiThieu}><Text style={{ fontWeight: "bold" }}>Thời lượng phim:</Text> {this.state.movie.duration} minute</Text>
+                                <Text style={style.textGioiThieu}><Text style={{  fontFamily:'OpenSans-Bold' }}>Genres:</Text> {this.state.movie.category}</Text>
+                                <Text style={style.textGioiThieu}><Text style={{  fontFamily:'OpenSans-Bold' }}>Actor:</Text> {this.state.movie.actor}</Text>
+                                <Text style={style.textGioiThieu}><Text style={{  fontFamily:'OpenSans-Bold'}}>Director:</Text> {this.state.movie.director}</Text>
+                                <Text style={style.textGioiThieu}><Text style={{ fontFamily:'OpenSans-Bold' }}>Manufacturer:</Text> {this.state.movie.manufacturer}</Text>
+                                <Text style={style.textGioiThieu}><Text style={{ fontFamily:'OpenSans-Bold' }}>Thời lượng phim:</Text> {this.state.movie.duration} minute</Text>
                                 <TouchableOpacity style={style.buttonLike} onPress={()=>{
                                     this.onClickButtonLike()
                                 }}>
@@ -151,36 +151,40 @@ const style = StyleSheet.create({
     textInfor: {
         flex: 2,
         flexDirection: 'column',
-        marginLeft: 10
+        marginLeft: 10,
+   
     },
     textTitle: {
         fontSize: 13,
         color: 'white',
         textTransform: 'uppercase',
-        fontWeight: 'bold'
+        fontFamily:'OpenSans-Bold'
     },
     textViews: {
         fontSize: 13,
-        fontStyle: 'italic',
+        fontFamily:'OpenSans-Italic',
         color: '#fea46f',
         marginVertical: 10,
     },
     textGioiThieu: {
         fontSize: 13,
         color: 'white',
+        fontFamily:'OpenSans-Regular'
     },
     buttonLike: {
         flexDirection: 'row',
         marginTop: 15,
-        alignItems: 'center'
+        alignItems: 'center',
+        fontFamily:'OpenSans-Bold'
     },
     textDescription: {
         color: 'white',
         fontSize: 13,
+        fontFamily:'OpenSans-Regular'
 
     },
     textXemThem: {
-        fontStyle: 'italic',
+        fontFamily:'OpenSans-Italic',
         color: '#fea46f',
         textDecorationLine: 'underline',
         textAlign: 'right'
@@ -188,7 +192,7 @@ const style = StyleSheet.create({
     textTrailer: {
         color: '#fd6003',
         textTransform: 'uppercase',
-        fontWeight: 'bold',
+        fontFamily:'OpenSans-Bold'
     }
 
 
