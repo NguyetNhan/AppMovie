@@ -1,6 +1,6 @@
-import { fork, call, all } from 'redux-saga/effects';
+import { all } from 'redux-saga/effects';
 import { watchSignIn, watchTest } from '../login/sagas/loginSagas';
-import { watchFetchListFilm } from '../home/sagas/ListFilmSaga';
+import {watchFetchListLike, watchFetchListFilm,watchLikeMovie } from '../home/sagas/ListFilmSaga';
 import { watchSignUp } from '../register/sagas/RegisterSaga';
 import {  watchForgetPassword} from '../forget_password/sagas/ForgetPasswordSaga';
 
@@ -11,6 +11,8 @@ export default function* rootSaga() {
         watchTest(),
         watchSignUp(),
         watchForgetPassword(),
+        watchLikeMovie(),
+        watchFetchListLike()
     ])
 }
 

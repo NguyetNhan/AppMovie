@@ -50,7 +50,7 @@ const AppNavigator = createStackNavigator({
   },
   
 }, {
-    initialRouteName: 'ListFilm',
+    initialRouteName: 'Login',
 });
 
 const sagaMiddleware = createSagaMiddleware();
