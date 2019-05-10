@@ -1,17 +1,16 @@
 import {FETCH_LIST_LIKE_FAILED,FETCH_LIST_LIKE_SUCCEEDED,FETCH_LIST_LIKE, LIKE_FILM, XEM_FILM, FETCH_FILM, FETCH_FILM_SUCCEEDED, FETCH_FILM_FAILED,LIKE_FILM_SUCCEEDED,LIKE_FILM_FAILED } from './ActionTypes';
 
-export const fetchFilm = (page,user) => {
+export const fetchFilm = (value) => {
     return {
         type: FETCH_FILM,
-        page,
-        user
+        value
     }
 }
 
-export const likeFilm = (movieLike) => {
+export const likeFilm = (value) => {
     return {
         type: LIKE_FILM,
-        movieLike
+        value
     }
 }
 

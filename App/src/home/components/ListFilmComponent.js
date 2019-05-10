@@ -16,7 +16,8 @@ export default class ListFilmComponent extends Component {
             headerTintColor: '#fff',
             headerTitleStyle: {
                 textAlign: "center",
-                fontFamily: "UVN-Baisau-Bold",
+                fontFamily:'UVN-Baisau-Bold',
+                fontWeight: "200",
                 flex: 1,
             },
         }
@@ -34,23 +35,35 @@ export default class ListFilmComponent extends Component {
         this.onClickButtonLike = this.onClickButtonLike.bind(this)
         this.onClickButtonWatchMovie = this.onClickButtonWatchMovie.bind(this)
         this.onSearchTitleEnglish = this.onSearchTitleEnglish.bind(this)
-        this.onRefresh=this.onRefresh.bind(this)
+        this.onRefresh = this.onRefresh.bind(this)
 
     }
+    // bắt sự kiện thay thế màn hình
+    /* replaceScreen = () => {
+        const { locations, position } = this.props.navigation.state.params;
+        this.props.navigation.dispatch({
+          key: 'Login',
+          type: 'ReplaceCurrentScreen',
+          routeName: 'Login',
+          params: { locations, position },
+        });
+      }; */
 
     componentDidMount() {
         console.log('componentDidMount: ');
         this.setState({
-            isFetching: true
+            isFetching: true,
+            user: this.props.navigation.getParam('user', null)
         })
-        this.props.onFetchFilm(1, (this.state.user))
+        this.props.onFetchFilm({ page: 1, user: this.state.user })
+
     }
-    
+
 
 
     // nhận dữ liệu từ container mapStateToProps
     componentWillReceiveProps(nextProps) {
-        console.log('componentWillReceiveProps: ',nextProps.movies.data);
+        console.log('componentWillReceiveProps: ', nextProps.movies.data);
         let user = nextProps.navigation.getParam('user', null)
         this.setState({
             user: user,
@@ -60,6 +73,9 @@ export default class ListFilmComponent extends Component {
     }
     componentWillMount() {
         console.log('componentWillMount: ');
+        this.setState({
+            user: this.props.navigation.getParam('user', null)
+        })
     }
     shouldComponentUpdate(nextProps, nextState) {
         console.log('shouldComponentUpdate: ');
@@ -72,7 +88,7 @@ export default class ListFilmComponent extends Component {
     // chưa xử lí đưa mảng về rỗng
     onRefresh() {
         this.setState({ isFetching: true, valuesListMovies: [], })
-        this.props.onFetchFilm(1, (this.state.user))
+        this.props.onFetchFilm({ page: 1, user: this.state.user })
     }
 
     onLoadingMovies() {
@@ -85,23 +101,21 @@ export default class ListFilmComponent extends Component {
         } else {
             if (page < total_pages) {
                 this.setState({ isFetching: true })
-                 this.props.onFetchFilm(++page, (this.state.user))
+                this.props.onFetchFilm({ page: ++page, user: this.state.user })
             } else if (page >= total_pages)
                 return
         }
     }
 
+
     // nút like chưa chuyển đổi do không thực hiện được các lệnh bên trong
     onClickButtonLike(movieId) {
-        console.log('this.state.user ', this.state.user);
+        // console.log('this.state.user ', this.state.user);
         const user = this.state.user
         if (user == null) {
-            this.props.navigation.navigate('Login')
+            this.props.navigation.replace('Login')
         } else {
-            let userId = user.id
-            //   this.props.onFetchListLike(parseInt(userId) )
-            console.log('user: ', user.id);
-            this.props.onClickLikeFilm({ userId, movieId })
+            this.props.onClickLikeFilm({ user: user.id, movieId })
             var listMovies = this.state.valuesListMovies
             for (i = 0; i < listMovies.length; i++) {
                 if (listMovies[i].id == movieId) {
@@ -125,11 +139,9 @@ export default class ListFilmComponent extends Component {
                 }
             }
         }
-
     }
 
-    // button xem phim
-    onClickButtonWatchMovie(movieId) {
+    onCallbackWatchMovie(movieId) {
         var listMovies = this.state.valuesListMovies
         for (i = 0; i < listMovies.length; i++) {
             if (listMovies[i].id == movieId) {
@@ -138,6 +150,29 @@ export default class ListFilmComponent extends Component {
                     movie: movie,
                     titleMovie: this.onSearchTitleEnglish(movie.title)
                 })
+            }
+        }
+    }
+
+    // button xem phim
+    onClickButtonWatchMovie(movieId) {
+        const user = this.state.user
+        var listMovies = this.state.valuesListMovies
+        for (i = 0; i < listMovies.length; i++) {
+            if (listMovies[i].id == movieId) {
+                if (user == null) {
+                    var movie = listMovies[i];
+                    this.props.navigation.replace('Login', {
+                        movie: movie.id,
+                        callback: this.onCallbackWatchMovie.bind(this)
+                    })
+                } else {
+                    var movie = listMovies[i];
+                    this.props.navigation.navigate('DetailFilm', {
+                        movie: movie,
+                        titleMovie: this.onSearchTitleEnglish(movie.title)
+                    })
+                }
             }
         }
     }
@@ -190,7 +225,6 @@ export default class ListFilmComponent extends Component {
                                     textButtonLike={item.item.textButtonLike}
                                     onClickButtonWatchMovie={this.onClickButtonWatchMovie}
                                     colorTextLike={item.item.colorTextLike}
-                                //   userLogin = {userLogin}
                                 />
                             )
                         }}

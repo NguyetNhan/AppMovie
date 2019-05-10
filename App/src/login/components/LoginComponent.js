@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground,StatusBar } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground, StatusBar, Image } from 'react-native';
+import { LoginButton, AccessToken } from 'react-native-fbsdk';
 // import loadding
 import Loader from '../../components/loader';
+
+import FBSDK,{ LoginManager } from "react-native-fbsdk";
 
 export default class LoginComponent extends Component {
     constructor(props) {
@@ -10,9 +13,10 @@ export default class LoginComponent extends Component {
             email: 'nhan123@gmail.com',
             password: '123456',
             user: '',
-            onLoading: false
+            onLoading: false,
+            movie:''
         }
-        this.onSignIn=this.onSignIn.bind(this)
+        this.onSignIn = this.onSignIn.bind(this)
     }
 
     // nhận dữ liệu từ container
@@ -25,7 +29,8 @@ export default class LoginComponent extends Component {
 
     componentWillMount() {
         this.setState({
-            email: this.props.navigation.getParam('email', 'nhan123@gmail.com')
+            email: this.props.navigation.getParam('email', 'nhan123@gmail.com'),
+            movie: this.props.navigation.getParam('movie', null),
         })
     }
 
@@ -40,20 +45,43 @@ export default class LoginComponent extends Component {
             })
             console.log('login = ', this.state.user.error)
             if (!this.state.user.error) {
-                console.log('chuyen man hinh = ', this.state.user.data)
-                this.props.navigation.navigate('ListFilm', {
-                    user: this.state.user.data
-                })
+                if (this.state.movie == null) {
+                    console.log('this.state.user.data: ', this.state.user.data);
+                    this.props.navigation.replace('ListFilm', { user: this.state.user.data })
+                   
+                } else {
+                    console.log('this.state.user.data: ', this.state.user.data);
+                    this.props.navigation.state.params.callback(this.state.movie)
+                    this.props.navigation.replace('ListFilm', { user: this.state.user.data })
+                }
             } else {
                 alert(JSON.stringify(this.state.user.message))
             }
         }, 1000);
     }
 
+    _fbAuth(){
+        LoginManager.logInWithReadPermissions(["public_profile"]).then(
+            function(result) {
+              if (result.isCancelled) {
+                console.log("Login cancelled");
+              } else {
+                console.log(
+                  "Login success with permissions: " +
+                    result.grantedPermissions.toString()
+                );
+              }
+            },
+            function(error) {
+              console.log("Login fail with error: " + error);
+            }
+          );
+    }
+
     render() {
         return (
             <View style={style.container}>
-              <StatusBar
+                <StatusBar
                     barStyle="light-content"
                     backgroundColor="#fd6003"
                 />
@@ -107,6 +135,15 @@ export default class LoginComponent extends Component {
                             style={style.buttonForget}>
                             <Text style={style.buttonTextForget}>Quên mật khẩu?</Text>
                         </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+                               this._fbAuth()
+                            }}
+                            style={style.buttonLoginFacebook}>
+                            <Image source={require('../../../assets/images/icon_facebook.png')} style={{ height: 25, width: 25, marginRight: 5 }}></Image>
+                            <Text style={style.buttonTextLogin}>Đăng nhập với Facebook</Text>
+                        </TouchableOpacity>
+                        
                         <View style={style.line}></View>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'center', marginBottom: 10 }}>
@@ -136,7 +173,7 @@ const style = StyleSheet.create({
     title: {
         fontSize: 30,
         color: 'white',
-        fontFamily:'UVN-Baisau-Regular',
+        fontFamily: 'UVN-Baisau-Regular',
         textAlign: 'center',
         marginBottom: 50
     },
@@ -176,6 +213,19 @@ const style = StyleSheet.create({
         borderBottomLeftRadius: 5,
         borderTopRightRadius: 5,
         borderTopLeftRadius: 5
+    },
+    buttonLoginFacebook: {
+        backgroundColor: '#3a559f',
+        paddingVertical: 10,
+        marginVertical: 10,
+        height: 50,
+        width: 300,
+        borderBottomEndRadius: 5,
+        borderBottomLeftRadius: 5,
+        borderTopRightRadius: 5,
+        borderTopLeftRadius: 5,
+        flexDirection: 'row',
+        justifyContent: 'center'
     },
     buttonTextLogin: {
         fontSize: 20,

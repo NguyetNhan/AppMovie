@@ -3,9 +3,9 @@
  */
 
 import React, { Component } from 'react';
-import {AppRegistry} from 'react-native';
+import { AppRegistry } from 'react-native';
 import { createStackNavigator, createAppContainer } from "react-navigation";
-import {name as appName} from './app.json';
+import { name as appName } from './app.json';
 
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
@@ -48,18 +48,34 @@ const AppNavigator = createStackNavigator({
       header: null,
     },
   },
-  
-}, {
-    initialRouteName: 'Login',
-});
+},
+  {
+    initialRouteName: 'ListFilm',
+  });
+
+  //  thay thế màn hình
+/* const prevGetStateForActionAppNavigator = AppNavigator.router.getStateForAction;
+AppNavigator.router.getStateForAction = (action, state) => {
+  if (state && action.type === 'ReplaceCurrentScreen') {
+    const routes = state.routes.slice(0, state.routes.length - 1);
+    routes.push(action);
+    return {
+      ...state,
+      routes,
+      index: routes.length - 1,
+    };
+  }
+  return prevGetStateForActionAppNavigator(action, state);
+} */
+
 
 const sagaMiddleware = createSagaMiddleware();
 
 let store = createStore(allReducer, applyMiddleware(sagaMiddleware));
 
- let Navigation = createAppContainer(AppNavigator)
- sagaMiddleware.run(rootSaga)
- export default class App extends React.Component {
+let Navigation = createAppContainer(AppNavigator)
+sagaMiddleware.run(rootSaga)
+export default class App extends React.Component {
   render() {
     return (
       <Provider store={store}>

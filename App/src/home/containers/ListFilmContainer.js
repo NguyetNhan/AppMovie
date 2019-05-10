@@ -14,17 +14,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onFetchFilm: (page,user) => {
-            dispatch(fetchFilm(page,user))
+        onFetchFilm: (value) => {
+            dispatch(fetchFilm(value))
         },
-        onClickLikeFilm: ({userId,movieId}) => {
-            dispatch(likeFilm({userId,movieId}))
+        onClickLikeFilm: (value) => {
+            dispatch(likeFilm(value))
         },
         onClickXemFilm: (film) => {
             dispatch(xemFilm(film))
-        },
-        onFetchListLike:(userId)=>{
-            dispatch(fetchListLike(userId))
         }
     }
 }

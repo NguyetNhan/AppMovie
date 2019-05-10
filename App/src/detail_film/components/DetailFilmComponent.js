@@ -14,7 +14,8 @@ export default class DetailFilmComponent extends Component {
                 textAlign: "center",
                 flex: 1,
                 textTransform: 'uppercase',
-                fontFamily:'OpenSans-Bold'
+                fontFamily:'OpenSans-Bold',
+                fontWeight: "200",
             },
         }
     }
