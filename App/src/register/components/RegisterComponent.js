@@ -1,66 +1,66 @@
 import React, { Component } from 'react';
-import { StatusBar,StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground, Image } from 'react-native';
+import { StatusBar, StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground, Image } from 'react-native';
 
 import Loader from '../../components/loader';
 
 
 
 export default class RegisterComponent extends Component {
-    constructor(props) {
-        super(props)
+    constructor (props) {
+        super(props);
         this.state = {
             name: 'phan nhan',
             email: '@gmail.com',
             password: '123456',
             retypePassword: '123456',
             onLoading: false
-        }
+        };
     }
 
     // nhận dữ liệu từ container
-    componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps (nextProps) {
         this.setState({
             user: nextProps.user
-        })
+        });
     }
     // hàm đăng ký
-    onButtonSignUp(name, email, password, retypePassword) {
-        this.props.onSignUp({ full_name: name, email: email, password: password })
+    onButtonSignUp (name, email, password, retypePassword) {
+        this.props.onSignUp({ full_name: name, email: email, password: password });
         this.setState({
             onLoading: true,
-            name:'',
+            name: '',
             email: '',
             password: '',
             retypePassword: '',
-            receiverEmail:''
-        })
-       
+            receiverEmail: ''
+        });
+
         setTimeout(() => {
             this.setState({
                 onLoading: false
-            }),this.onCheckSignUpSucceeded(this.state.user)
+            }), this.onCheckSignUpSucceeded(this.state.user);
         }, 1000);
 
-        
+
     }
 
-    onCheckSignUpSucceeded(user){
-        if(!user.error){
-           alert('Tài khoản của bạn đã đăng ký thành công !');
-         // alert(user.data.email)
-          this.setState({
-              receiverEmail:user.data.email
-          })
-        }else{
-            alert(JSON.stringify(user.message))
+    onCheckSignUpSucceeded (user) {
+        if (!user.error) {
+            alert('Tài khoản của bạn đã đăng ký thành công !');
+            // alert(user.data.email)
+            this.setState({
+                receiverEmail: user.data.email
+            });
+        } else {
+            alert(JSON.stringify(user.message));
         }
 
     }
 
-    render() {
+    render () {
         return (
             <ImageBackground source={require('../../../assets/images/bg.png')} style={{ width: '100%', height: '100%' }}>
-               <StatusBar
+                <StatusBar
                     barStyle="light-content"
                     backgroundColor="#fd6003"
                 />
@@ -81,8 +81,8 @@ export default class RegisterComponent extends Component {
                                     this.setState(() => {
                                         return {
                                             name: text
-                                        }
-                                    })
+                                        };
+                                    });
                                 }}
                             ></TextInput>
                             <Text style={style.textSuggestions}>Bạn chưa điền Email</Text>
@@ -95,8 +95,8 @@ export default class RegisterComponent extends Component {
                                     this.setState(() => {
                                         return {
                                             email: text
-                                        }
-                                    })
+                                        };
+                                    });
                                 }}
                             ></TextInput>
                             <Text style={style.textSuggestions}>Bạn chưa điền mật khẩu</Text>
@@ -110,8 +110,8 @@ export default class RegisterComponent extends Component {
                                     this.setState(() => {
                                         return {
                                             password: text
-                                        }
-                                    })
+                                        };
+                                    });
                                 }}
                             ></TextInput>
                             <Text style={style.textSuggestions}>Bạn chưa xác nhậ mật khẩu</Text>
@@ -125,23 +125,25 @@ export default class RegisterComponent extends Component {
                                     this.setState(() => {
                                         return {
                                             retypePassword: text
-                                        }
-                                    })
+                                        };
+                                    });
                                 }}
                             ></TextInput>
                         </View>
                         <TouchableOpacity
                             style={style.buttonRegister}
                             onPress={() => {
-                                this.onButtonSignUp(this.state.name, this.state.email, this.state.password, this.state.retypePassword)
+                                this.onButtonSignUp(this.state.name, this.state.email, this.state.password, this.state.retypePassword);
                             }}
                         ><Text style={style.textButton}>Đăng ký</Text></TouchableOpacity>
                         <View style={style.line}></View>
-                        <TouchableOpacity 
-                        onPress={()=>{ this.props.navigation.navigate('Login',{
-                            email:this.state.receiverEmail
-                        })}}
-                        style={style.buttonCancel}
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.props.navigation.navigate('Login', {
+                                    email: this.state.receiverEmail
+                                });
+                            }}
+                            style={style.buttonCancel}
                         ><Image source={require('../../../assets/images/btnClose.png')} style={{ width: 40, height: 40 }}></Image></TouchableOpacity>
                     </View>
                     <View style={{
@@ -160,7 +162,7 @@ export default class RegisterComponent extends Component {
                     </View>
                 </View>
             </ImageBackground>
-        )
+        );
     }
 }
 
@@ -173,7 +175,7 @@ const style = StyleSheet.create({
     },
     content: {
         flex: 1,
-        width: "100%",
+        width: '100%',
         alignItems: 'center',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -182,7 +184,7 @@ const style = StyleSheet.create({
     },
     line: {
         height: 1,
-        width: "100%",
+        width: '100%',
         backgroundColor: '#ca736a'
     },
     contentForm: {
@@ -194,20 +196,20 @@ const style = StyleSheet.create({
         fontSize: 25,
         color: 'white',
         marginBottom: 40,
-        fontFamily:'UVN-Baisau-Regular'
+        fontFamily: 'UVN-Baisau-Regular'
     },
     textSuggestions: {
         fontSize: 11,
         color: 'yellow',
         textAlign: 'left',
-        fontFamily:'OpenSans-Regular'
+        fontFamily: 'OpenSans-Regular'
     },
     textInput: {
         borderBottomWidth: 1,
         borderBottomColor: '#ca736a',
         fontSize: 18,
         color: 'white',
-        fontFamily:'OpenSans-Regular'
+        fontFamily: 'OpenSans-Regular'
     },
     buttonRegister: {
         backgroundColor: '#fd6003',
@@ -224,21 +226,21 @@ const style = StyleSheet.create({
         color: 'white',
         textAlign: 'center',
         fontSize: 20,
-        fontFamily:'OpenSans-Regular'
+        fontFamily: 'OpenSans-Regular'
     },
     buttonCancel: {
         marginTop: 20
     },
     textDieuKhoan: {
         color: 'white',
-        fontFamily:'OpenSans-SemiBold'
+        fontFamily: 'OpenSans-SemiBold'
     },
     textGetDieuKhoan: {
         color: '#fd6003',
         textDecorationLine: 'underline',
-        fontFamily:'OpenSans-SemiBold'
+        fontFamily: 'OpenSans-SemiBold'
     }
-})
+});
 
 
 

@@ -11,9 +11,9 @@ const ForgetPasswordReducer = (state = [], action) => {
         default:
             return state;
     }
-}
+};
 
-export default ForgetPasswordReducer
+export default ForgetPasswordReducer;
 
 
 

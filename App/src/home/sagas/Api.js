@@ -1,18 +1,20 @@
-const urlListFilm = "http://training-movie.bsp.vn:82/movie/list";
+/* eslint-disable no-console */
+/* eslint-disable indent */
+const urlListFilm = 'http://training-movie.bsp.vn:82/movie/list';
 
-function* listFilmFromApi(page) {
-        console.log('page: ', page);
+function* listFilmFromApi (page) {
+        //  console.log('page: ', page);
         const response = yield fetch(`${urlListFilm}?page=${page}`, {
-                method: "GET",
+                method: 'GET',
                 headers: {
-                        "Content-Type": "application/json",
-                        "app_token": "dCuW7UQMbdvpcBDfzolAOSGFIcAec11a",
+                        'Content-Type': 'application/json',
+                        'app_token': 'dCuW7UQMbdvpcBDfzolAOSGFIcAec11a',
                 },
-        }).then(value => value.json())
-        console.log('response: ', response.data);
-        return response
+        }).then(value => value.json());
+        //    console.log('response: ', response.data);
+        return response;
 }
 
 export const Api = {
         listFilmFromApi,
-}
+};

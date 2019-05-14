@@ -4,7 +4,7 @@
 
 import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
-import { createStackNavigator, createAppContainer } from "react-navigation";
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { name as appName } from './app.json';
 
 import { Provider } from 'react-redux';
@@ -20,7 +20,7 @@ import rootSaga from './src/sagas/rootSaga';
 import ListFilm from './src/home/containers/ListFilmContainer';
 import Login from './src/login/containers/LoginContainer';
 import Register from './src/register/containers/RegisterContainer';
-import DetailFilm from './src/detail_film/components/DetailFilmComponent';
+import DetailFilm from './src/detail_film/containers/DetailFilm';
 import ForgetPassword from './src/forget_password/containers/ForgetPasswordContainer';
 
 const AppNavigator = createStackNavigator({
@@ -53,7 +53,7 @@ const AppNavigator = createStackNavigator({
     initialRouteName: 'ListFilm',
   });
 
-  //  thay thế màn hình
+//  thay thế màn hình
 /* const prevGetStateForActionAppNavigator = AppNavigator.router.getStateForAction;
 AppNavigator.router.getStateForAction = (action, state) => {
   if (state && action.type === 'ReplaceCurrentScreen') {
@@ -73,10 +73,10 @@ const sagaMiddleware = createSagaMiddleware();
 
 let store = createStore(allReducer, applyMiddleware(sagaMiddleware));
 
-let Navigation = createAppContainer(AppNavigator)
-sagaMiddleware.run(rootSaga)
+let Navigation = createAppContainer(AppNavigator);
+sagaMiddleware.run(rootSaga);
 export default class App extends React.Component {
-  render() {
+  render () {
     return (
       <Provider store={store}>
         <Navigation />

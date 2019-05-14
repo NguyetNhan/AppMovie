@@ -5,18 +5,18 @@ import { onForgetPassword } from '../actions/index';
 const mapStateToProps = (state) => {
     return {
         message: state.ForgetPasswordReducer
-    }
+    };
 };
 
 // nhận các action bên component
 const mapDispatchToProps = (dispatch) => {
     return {
-      onClickButtonForgetPassword:(email)=>{
-          dispatch(onForgetPassword(email))
-      }
-    }
+        onClickButtonForgetPassword: (email) => {
+            dispatch(onForgetPassword(email));
+        }
+    };
 };
 
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(ForgetPasswordComponent)
+export default connect(mapStateToProps, mapDispatchToProps)(ForgetPasswordComponent);

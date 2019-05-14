@@ -4,81 +4,80 @@ import { LoginButton, AccessToken } from 'react-native-fbsdk';
 // import loadding
 import Loader from '../../components/loader';
 
-import FBSDK,{ LoginManager } from "react-native-fbsdk";
+import FBSDK, { LoginManager } from 'react-native-fbsdk';
 
 export default class LoginComponent extends Component {
-    constructor(props) {
+    constructor (props) {
         super(props);
         this.state = {
             email: 'nhan123@gmail.com',
             password: '123456',
             user: '',
             onLoading: false,
-            movie:''
-        }
-        this.onSignIn = this.onSignIn.bind(this)
+            movie: ''
+        };
+        this.onSignIn = this.onSignIn.bind(this);
     }
 
     // nhận dữ liệu từ container
-    componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps (nextProps) {
         //   console.log(' nhận dữ liệu từ container = ', nextProps.user);
         this.setState({
             user: nextProps.user
-        })
+        });
     }
 
-    componentWillMount() {
+    componentWillMount () {
         this.setState({
             email: this.props.navigation.getParam('email', 'nhan123@gmail.com'),
             movie: this.props.navigation.getParam('movie', null),
-        })
+        });
     }
 
-    onSignIn(email, password) {
-        this.props.onSignIn({ email: email, password: password })
+    onSignIn (email, password) {
+        this.props.onSignIn({ email: email, password: password });
         this.setState({
             onLoading: true
-        })
+        });
         setTimeout(() => {
             this.setState({
                 onLoading: false
-            })
-            console.log('login = ', this.state.user.error)
+            });
+            // console.log('login = ', this.state.user.error);
             if (!this.state.user.error) {
                 if (this.state.movie == null) {
-                    console.log('this.state.user.data: ', this.state.user.data);
-                    this.props.navigation.replace('ListFilm', { user: this.state.user.data })
-                   
+                    //   console.log('this.state.user.data: ', this.state.user.data);
+                    this.props.navigation.replace('ListFilm', { user: this.state.user.data });
                 } else {
-                    console.log('this.state.user.data: ', this.state.user.data);
-                    this.props.navigation.state.params.callback(this.state.movie)
-                    this.props.navigation.replace('ListFilm', { user: this.state.user.data })
+                    //    console.log('this.state.user.data: ', this.state.user.data);
+                    this.props.navigation.state.params.callback(this.state.movie, this.state.user.data);
+                    this.props.navigation.replace('ListFilm', { user: this.state.user.data });
                 }
             } else {
-                alert(JSON.stringify(this.state.user.message))
+                alert(JSON.stringify(this.state.user.message));
             }
         }, 1000);
     }
 
-    _fbAuth(){
-        LoginManager.logInWithReadPermissions(["public_profile"]).then(
-            function(result) {
-              if (result.isCancelled) {
-                console.log("Login cancelled");
-              } else {
-                console.log(
-                  "Login success with permissions: " +
-                    result.grantedPermissions.toString()
-                );
-              }
+    _fbAuth () {
+        LoginManager.logInWithReadPermissions(['public_profile']).then(
+            function (result) {
+                if (result.isCancelled) {
+                    //   console.log('Login cancelled');
+                } else {
+                    console.log(
+                        'Login success with permissions: ' +
+                        result.grantedPermissions.toString()
+                    );
+                }
             },
-            function(error) {
-              console.log("Login fail with error: " + error);
+            function (error) {
+                console.log('Login fail with error: ' + error);
             }
-          );
+        );
     }
 
-    render() {
+    render () {
         return (
             <View style={style.container}>
                 <StatusBar
@@ -100,8 +99,8 @@ export default class LoginComponent extends Component {
                                 this.setState(() => {
                                     return {
                                         email: text
-                                    }
-                                })
+                                    };
+                                });
                             }}
                             value={this.state.email}
                         ></TextInput>
@@ -114,15 +113,15 @@ export default class LoginComponent extends Component {
                                 this.setState(() => {
                                     return {
                                         password: text
-                                    }
-                                })
+                                    };
+                                });
                             }}
                             value={this.state.password}
                         ></TextInput>
                         <TouchableOpacity
                             onPress={() => {
                                 // event from LoginContainer
-                                this.onSignIn(this.state.email, this.state.password)
+                                this.onSignIn(this.state.email, this.state.password);
                             }}
                             style={style.buttonLogin}>
                             <Text style={style.buttonTextLogin}>Đăng nhập</Text>
@@ -130,29 +129,29 @@ export default class LoginComponent extends Component {
                         <TouchableOpacity
                             onPress={() => {
                                 // event from LoginContainer
-                                this.props.navigation.navigate('ForgetPassword')
+                                this.props.navigation.navigate('ForgetPassword');
                             }}
                             style={style.buttonForget}>
                             <Text style={style.buttonTextForget}>Quên mật khẩu?</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             onPress={() => {
-                               this._fbAuth()
+                                this._fbAuth();
                             }}
                             style={style.buttonLoginFacebook}>
                             <Image source={require('../../../assets/images/icon_facebook.png')} style={{ height: 25, width: 25, marginRight: 5 }}></Image>
                             <Text style={style.buttonTextLogin}>Đăng nhập với Facebook</Text>
                         </TouchableOpacity>
-                        
+
                         <View style={style.line}></View>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'center', marginBottom: 10 }}>
                         <Text style={{ textAlign: 'center', fontFamily: 'OpenSans-Regular', color: 'white' }}>Bạn chưa có tài khoản?</Text>
-                        <Text onPress={() => { this.props.navigation.navigate('Register') }} style={{ textAlign: 'center', fontFamily: 'OpenSans-Regular', color: '#fe5f01', textDecorationLine: 'underline' }}>ĐĂNG KÝ</Text>
+                        <Text onPress={() => { this.props.navigation.navigate('Register'); }} style={{ textAlign: 'center', fontFamily: 'OpenSans-Regular', color: '#fe5f01', textDecorationLine: 'underline' }}>ĐĂNG KÝ</Text>
                     </View>
                 </ImageBackground>
             </View >
-        )
+        );
     }
 }
 
