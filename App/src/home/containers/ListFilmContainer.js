@@ -6,7 +6,7 @@ import ListFilmComponent from '../components/ListFilmComponent';
 
 const mapStateToProps = (state) => {
 
-        //   console.log('container = ',state.ListFilmReducer);
+        console.log('container = ', state.ListFilmReducer);
         return {
                 movies: state.ListFilmReducer,
                 isLoading: false,

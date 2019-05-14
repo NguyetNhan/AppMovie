@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, ImageBackground, FlatList, StatusBar } from 'react-native';
+import { View, StyleSheet, ImageBackground, FlatList, StatusBar, Image, TouchableOpacity } from 'react-native';
 
 
 import { fetchFilm, likeFilm, xemFilm } from '../actions/index';
@@ -20,6 +20,13 @@ export default class ListFilmComponent extends Component {
                                 fontWeight: "200",
                                 flex: 1,
                         },
+                        headerRight: (
+                                <TouchableOpacity onPress={() => {
+                                        //       params.onClickButtonProfile()
+                                }}>
+                                        <Image source={require('../../../assets/images/profile.png')} style={{ height: 25, width: 25 }}></Image>
+                                </TouchableOpacity>
+                        )
                 }
         }
 
@@ -38,6 +45,7 @@ export default class ListFilmComponent extends Component {
                 this.onSearchTitleEnglish = this.onSearchTitleEnglish.bind(this)
                 this.onRefresh = this.onRefresh.bind(this)
 
+
         }
         // bắt sự kiện thay thế màn hình
         /* replaceScreen = () => {
@@ -55,8 +63,9 @@ export default class ListFilmComponent extends Component {
                 this.setState({
                         isFetching: true,
                         user: this.props.navigation.getParam('user', null)
-                })
-                this.props.onFetchFilm({ page: 1, user: this.state.user })
+                });
+                this.props.onFetchFilm({ page: 1, user: this.state.user });
+                //      this.props.navigation.setParams({ onClickButtonProfile: this._onClickButtonProfile.bind(this) })
         }
 
 
@@ -82,6 +91,10 @@ export default class ListFilmComponent extends Component {
                 const oldUser = this.state.user
                 //    console.log(`new user: ${user} old user: ${oldUser}`);
                 return true
+        }
+
+        _onClickButtonProfile () {
+                alert('anh nhan')
         }
 
         // chưa xử lí đưa mảng về rỗng
