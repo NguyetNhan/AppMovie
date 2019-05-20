@@ -4,6 +4,7 @@ import LoginReducer from '../login/reducers/LoginReducer';
 import RegisterReducer from '../register/reducers/RegisterReducer';
 import ForgetPasswordReducer from '../forget_password/reducers/ForgetPasswordReducer';
 import DetailFilm from '../detail_film/reducers/DetailFilm';
+import EditInfoUser from '../edit_info_user/reducers/EditInfoUser';
 
 
 
@@ -13,7 +14,8 @@ const allReducer = combineReducers({
     LoginReducer,
     RegisterReducer,
     ForgetPasswordReducer,
-    DetailFilm
+    DetailFilm,
+    EditInfoUser
 });
 
 export default allReducer;

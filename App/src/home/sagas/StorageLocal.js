@@ -1,11 +1,18 @@
-/* eslint-disable indent */
-/* eslint-disable no-console */
-/* eslint-disable no-undef */
+
 import AsyncStorage from '@react-native-community/async-storage';
 
 const Like_dao = value => {
         return {
                 like: [{ movie: value.movieId, status: true }]
+        };
+};
+
+const InfoUser = value => {
+        return {
+                full_name: value.full_name,
+                email: value.email,
+                gender: value.gender,
+                birthday: value.birthday
         };
 };
 
@@ -50,10 +57,25 @@ onListLikeMoveOfUser = async (user) => {
                 let listLike = await AsyncStorage.getItem(user);
                 return JSON.parse(listLike);
         } catch (error) {
-                console.log('error: ', error);
+                console.log('error onListLikeMoveOfUser: ', error);
+        }
+};
+
+onFetchUser = async (user) => {
+        //   console.log('user onFetchUser: ', user);
+        try {
+                let value = await AsyncStorage.getItem(user.id.concat('info'));
+                if (value === null) {
+                        await AsyncStorage.setItem(user.id.concat('info'), JSON.stringify(InfoUser(user)));
+                        return user;
+                } else {
+                        return value;
+                }
+        } catch (error) {
+                console.log('error onFetchUser : ', error);
         }
 };
 
 export const Local = {
-        onLike, onListLikeMoveOfUser
+        onLike, onListLikeMoveOfUser, onFetchUser
 };

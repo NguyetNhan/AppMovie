@@ -1,3 +1,4 @@
+
 /**
  * @format
  */
@@ -22,36 +23,46 @@ import Login from './src/login/containers/LoginContainer';
 import Register from './src/register/containers/RegisterContainer';
 import DetailFilm from './src/detail_film/containers/DetailFilm';
 import ForgetPassword from './src/forget_password/containers/ForgetPasswordContainer';
+import EditInfoUser from './src/edit_info_user/containers/EditInfoUser';
 
 const AppNavigator = createStackNavigator({
-  ListFilm: {
-    screen: ListFilm,
-  },
-  DetailFilm: {
-    screen: DetailFilm,
-  },
-  Login: {
-    screen: Login,
-    navigationOptions: {
-      header: null,
-    },
-  },
-  Register: {
-    screen: Register,
-    navigationOptions: {
-      header: null,
-    },
-  },
-  ForgetPassword: {
-    screen: ForgetPassword,
-    navigationOptions: {
-      header: null,
-    },
-  },
+        ListFilm: {
+                screen: ListFilm,
+                navigationOptions: {
+                        header: null,
+                },
+        },
+        DetailFilm: {
+                screen: DetailFilm,
+        },
+        Login: {
+                screen: Login,
+                navigationOptions: {
+                        header: null,
+                },
+        },
+        Register: {
+                screen: Register,
+                navigationOptions: {
+                        header: null,
+                },
+        },
+        ForgetPassword: {
+                screen: ForgetPassword,
+                navigationOptions: {
+                        header: null,
+                },
+        },
+        EditInfoUser: {
+                screen: EditInfoUser,
+                navigationOptions: {
+                        header: null,
+                },
+        },
 },
-  {
-    initialRouteName: 'ListFilm',
-  });
+        {
+                initialRouteName: 'ListFilm',
+        });
 
 //  thay thế màn hình
 /* const prevGetStateForActionAppNavigator = AppNavigator.router.getStateForAction;
@@ -76,13 +87,13 @@ let store = createStore(allReducer, applyMiddleware(sagaMiddleware));
 let Navigation = createAppContainer(AppNavigator);
 sagaMiddleware.run(rootSaga);
 export default class App extends React.Component {
-  render () {
-    return (
-      <Provider store={store}>
-        <Navigation />
-      </Provider>
-    );
-  }
+        render () {
+                return (
+                        <Provider store={store}>
+                                <Navigation />
+                        </Provider>
+                );
+        }
 }
 
 AppRegistry.registerComponent(appName, () => App);
