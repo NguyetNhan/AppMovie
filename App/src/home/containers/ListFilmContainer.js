@@ -1,22 +1,21 @@
 
 import { connect } from 'react-redux';
-import { fetchFilm, likeFilm, xemFilm, onLogout, fetchInfoUser } from '../actions/index';
+import { fetchFilm, likeFilm, onLogout, fetchInfoUser, onAddCountView } from '../actions/index';
 import ListFilmComponent from '../components/ListFilmComponent';
 
 
 const mapStateToProps = (state) => {
-        console.log('container = ', state.ListFilmReducer);
-        if (state.ListFilmReducer.paging === undefined) {
+        console.log('container ListFilmComponent = ', state.ListFilmReducer);
+        if (state.ListFilmReducer.fetchInfoLocal !== undefined) {
                 return {
-                        userLocal: state.ListFilmReducer,
+                        userLocal: state.ListFilmReducer.fetchInfoLocal,
                 };
         } else {
                 return {
-                        movies: state.ListFilmReducer,
+                        movies: state.ListFilmReducer.fetchFilm,
                         isLoading: false,
                 };
         }
-
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -27,15 +26,15 @@ const mapDispatchToProps = (dispatch) => {
                 onClickLikeFilm: (value) => {
                         dispatch(likeFilm(value));
                 },
-                onClickXemFilm: (film) => {
-                        dispatch(xemFilm(film));
+                onClickXemFilm: (movie) => {
+                        dispatch(onAddCountView(movie));
                 },
                 onClickLogout: (value) => {
                         dispatch(onLogout(value));
                 },
-                onFetchInfoUserLocal: (user) => {
-                        dispatch(fetchInfoUser(user));
-                }
+                onFetchInfoUserLocal: () => {
+                        dispatch(fetchInfoUser());
+                },
         };
 };
 

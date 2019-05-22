@@ -4,7 +4,9 @@ import { FETCH_INFO_USER_FAILED, FETCH_INFO_USER_SUCCEEDED, LOGOUT_FAILED, LOGOU
 const ListFilmReducer = (state = [], action) => {
         switch (action.type) {
                 case FETCH_FILM_SUCCEEDED:
-                        return action.film;
+                        return {
+                                fetchFilm: action.film
+                        };
                 case FETCH_FILM_FAILED:
                         return action.error;
                 case LIKE_FILM_SUCCEEDED:
@@ -12,7 +14,9 @@ const ListFilmReducer = (state = [], action) => {
                 case LIKE_FILM_FAILED:
                         return action.error;
                 case FETCH_INFO_USER_SUCCEEDED:
-                        return action.user;
+                        return {
+                                fetchInfoLocal: action.user
+                        };
                 case FETCH_INFO_USER_FAILED:
                         return action.error;
                 default:

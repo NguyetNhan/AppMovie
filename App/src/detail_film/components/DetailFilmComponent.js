@@ -43,6 +43,7 @@ export default class DetailFilmComponent extends Component {
         }
 
         componentDidMount () {
+                console.log('componentDidMount: ', this.state.movie);
                 this.props.onGetLikeFilm({ user: this.state.user, movie: this.state.movie })
         }
 

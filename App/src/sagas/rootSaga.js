@@ -1,6 +1,6 @@
 import { all, fork } from 'redux-saga/effects';
 import { watchSignIn, watchTest } from '../login/sagas/loginSagas';
-import { watchFetchListFilm, watchOnUserLike, watchLogout, watchFetchInfoUser } from '../home/sagas/ListFilmSaga';
+import { watchFetchListFilm, watchOnUserLike, watchLogout, watchFetchInfoUser, watchOnUpdateViewMovie } from '../home/sagas/ListFilmSaga';
 import { watchSignUp } from '../register/sagas/RegisterSaga';
 import { watchForgetPassword } from '../forget_password/sagas/ForgetPasswordSaga';
 import { watchOnClickLikeFromDetailFilm, watchOnGetLikeFromDetailFilm } from '../detail_film/sagas/DetailFilm';
@@ -19,6 +19,7 @@ export default function* rootSaga () {
         watchLogout(),
         watchFetchInfoUser(),
         watchUpdateInfoUserLocal(),
+        watchOnUpdateViewMovie()
     ]);
 
     /*   yield all([

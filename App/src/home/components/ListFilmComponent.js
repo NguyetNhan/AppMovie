@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import { View, StyleSheet, ImageBackground, FlatList, StatusBar, Image, TouchableOpacity, Text } from 'react-native';
 import Menu, { MenuItem, MenuDivider, Position } from "react-native-enhanced-popup-menu";
 import Modal from "react-native-simple-modal";
+import NetInfo from "@react-native-community/netinfo";
 
 
 import MyItemFlatlist from './MyItemFlatlist';
+
+
 
 export default class ListFilmComponent extends Component {
 
@@ -20,7 +23,8 @@ export default class ListFilmComponent extends Component {
                         textRef: React.createRef(),
                         menuRef: null,
                         open: false,
-                        userLocal: null
+                        userLocal: null,
+                        movie: null
                 }
                 this.onClickButtonLike = this.onClickButtonLike.bind(this)
                 this.onClickButtonWatchMovie = this.onClickButtonWatchMovie.bind(this)
@@ -29,85 +33,105 @@ export default class ListFilmComponent extends Component {
 
         }
 
+        componentWillMount () {
+                //  console.log('componentWillMount: ');
+                let user = this.props.navigation.getParam('user', null);
+                if (user === null) {
+                        //    console.log('componentWillMount: ');
+                        this.props.onFetchInfoUserLocal();
+                } else {
+                        console.log('componentWillMount: ');
+                        this.setState({
+                                user: user,
+                        })
+                }
+        }
+
         componentDidMount () {
-                this.setState({
-                        isFetching: true,
-                        user: this.props.navigation.getParam('user', null)
+                NetInfo.fetch().then(state => {
+                        if (state.isConnected) {
+                                this.setState({
+                                        isFetching: true,
+                                });
+                                this.props.onFetchFilm({ page: 1, user: this.state.user, network: state.isConnected });
+                        } else {
+                                this.setState({
+                                        isFetching: true,
+                                });
+                                this.props.onFetchFilm({ page: 1, user: this.state.user, network: state.isConnected });
+                        }
                 });
-                this.props.onFetchFilm({ page: 1, user: this.state.user });
         }
 
 
         // nhận dữ liệu từ container mapStateToProps
         componentWillReceiveProps (nextProps) {
-
+                console.log('componentWillReceiveProps: ', nextProps);
                 if (nextProps.userLocal != undefined) {
-                        console.log('componentWillReceiveProps: ', nextProps.userLocal);
                         this.setState({
-                                userLocal: nextProps.userLocal,
+                                user: nextProps.userLocal,
                         })
                 }
-                let user = nextProps.navigation.getParam('user', null)
+                // let user = nextProps.navigation.getParam('user', null)
                 if (nextProps.movies === undefined) {
                         this.setState({
-                                user: user,
+                                //  user: user,
                                 isFetching: this.state.isFetching,
+                                movie: this.state.movie,
                                 valuesListMovies: this.state.valuesListMovies,
                         });
                 } else {
                         this.setState({
-                                user: user,
+                                //   user: user,
                                 isFetching: nextProps.isLoading,
-                                valuesListMovies: this.state.valuesListMovies.concat(nextProps.movies.data),
+                                // valuesListMovies: this.state.valuesListMovies.concat(nextProps.movies.data),
+                                movie: nextProps.movies,
+                                valuesListMovies: nextProps.movies.data,
                         });
                 }
 
         }
-        componentWillMount () {
-                //      console.log('componentWillMount: ');
-                this.setState({
-                        user: this.props.navigation.getParam('user', null),
-                })
-        }
-
-        shouldComponentUpdate (nextProps, nextState) {
-                //   console.log('shouldComponentUpdate: ');
-                const user = nextProps.navigation.getParam('user', null)
-                const oldUser = this.state.user
-                //    console.log(`new user: ${user} old user: ${oldUser}`);
-                return true
-        }
-
-
 
         onRefresh () {
                 //    console.log('this.state.user: ', this.state.user);
-                this.setState({ isFetching: true, valuesListMovies: [], })
-                this.props.onFetchFilm({ page: 1, user: this.state.user })
+                NetInfo.fetch().then(state => {
+                        if (state.isConnected) {
+                                this.setState({ isFetching: true, valuesListMovies: [], })
+                                this.props.onFetchFilm({ page: 1, user: this.state.user, network: state.isConnected })
+                        } else {
+                                alert('Bạn chưa kết nối mạng!')
+                        }
+                });
         }
 
         onLoadingMovies () {
-                var page = this.props.movies.paging.current_page
-                //   console.log('page: ', page);
-                const total_pages = this.props.movies.paging.total_pages
-                //   console.log('total_pages: ', total_pages);
-                if (this.state.isFetching) {
-                        return
-                } else {
-                        if (page < total_pages) {
-                                this.setState({ isFetching: true })
-                                this.props.onFetchFilm({ page: ++page, user: this.state.user })
-                        } else if (page >= total_pages)
-                                return
-                }
+                NetInfo.fetch().then(state => {
+                        if (state.isConnected) {
+                                var page = this.state.movie.paging.current_page
+                                //   console.log('page: ', page);
+                                const total_pages = this.state.movie.paging.total_pages
+                                //   console.log('total_pages: ', total_pages);
+                                if (this.state.isFetching) {
+                                        return
+                                } else {
+                                        if (page < total_pages) {
+                                                this.setState({ isFetching: true })
+                                                this.props.onFetchFilm({ page: ++page, user: this.state.user, network: state.isConnected })
+                                        } else if (page >= total_pages)
+                                                return
+                                }
+                        } else {
+                                alert('Bạn chưa kết nối mạng!')
+                        }
+                });
         }
 
 
         // nút like chưa chuyển đổi do không thực hiện được các lệnh bên trong
         onClickButtonLike (movieId) {
-                console.log('this.state.user ', this.state.user);
-                const user = this.state.user
-                if (user == null) {
+                //  console.log('this.state.user ', this.state.user);
+                let user = this.state.user
+                if (user === null) {
                         this.props.navigation.replace('Login')
                 } else {
                         this.props.onClickLikeFilm({ user: user.id, movieId })
@@ -136,6 +160,10 @@ export default class ListFilmComponent extends Component {
                 }
         }
 
+        onRefreshUser () {
+                this.props.onFetchInfoUserLocal();
+        }
+
         onRefreshItemFromDetailFilm (movie) {
                 var listMovies = this.state.valuesListMovies
                 for (i = 0; i < listMovies.length; i++) {
@@ -151,13 +179,17 @@ export default class ListFilmComponent extends Component {
         onCallbackWatchMovie (movieId, user) {
                 var listMovies = this.state.valuesListMovies
                 for (i = 0; i < listMovies.length; i++) {
-                        if (listMovies[i].id == movieId) {
-                                var movie = listMovies[i];
+                        if (listMovies[i].id === movieId) {
+                                this.props.onClickXemFilm(listMovies[i].id);
+                                listMovies[i].views++;
                                 this.props.navigation.navigate('DetailFilm', {
-                                        movie: movie,
+                                        movie: listMovies[i],
                                         user: user,
-                                        titleMovie: this.onSearchTitleEnglish(movie.title),
+                                        titleMovie: this.onSearchTitleEnglish(listMovies[i].title),
                                         callback: this.onRefreshItemFromDetailFilm.bind(this)
+                                })
+                                this.setState({
+                                        valuesListMovies: listMovies
                                 })
                         }
                 }
@@ -165,22 +197,27 @@ export default class ListFilmComponent extends Component {
 
         // button xem phim
         onClickButtonWatchMovie (movieId) {
-                const user = this.state.user
-                var listMovies = this.state.valuesListMovies
+                let user = this.state.user
+                let listMovies = this.state.valuesListMovies
                 for (i = 0; i < listMovies.length; i++) {
                         if (listMovies[i].id == movieId) {
-                                if (user == null) {
-                                        var movie = listMovies[i];
+                                if (user === null) {
+                                        let movie = listMovies[i];
                                         this.props.navigation.replace('Login', {
                                                 movie: movie.id,
                                                 callback: this.onCallbackWatchMovie.bind(this)
                                         })
                                 } else {
-                                        var movie = listMovies[i];
+                                        this.props.onClickXemFilm(listMovies[i].id);
+                                        listMovies[i].views++;
+                                        console.log('movie onClickButtonWatchMovie : ', listMovies[i]);
+                                        this.setState({
+                                                valuesListMovies: listMovies
+                                        })
                                         this.props.navigation.navigate('DetailFilm', {
-                                                movie: movie,
+                                                movie: listMovies[i],
                                                 user: this.state.user,
-                                                titleMovie: this.onSearchTitleEnglish(movie.title),
+                                                titleMovie: this.onSearchTitleEnglish(listMovies[i].title),
                                                 callback: this.onRefreshItemFromDetailFilm.bind(this)
                                         })
                                 }
@@ -199,13 +236,18 @@ export default class ListFilmComponent extends Component {
         }
 
         onLogout (user) {
-                //  console.log('user: ', user);
+                //  console.log('user: ', user.access_token);
                 this.state.menuRef.hide();
-                this.props.onClickLogout(user.access_token);
-                this.props.navigation.setParams({
-                        user: null
-                })
-                this.onRefresh();
+                NetInfo.fetch().then(state => {
+                        if (state.isConnected) {
+                                this.props.onClickLogout(user.access_token);
+                                this.props.navigation.replace('Login');
+                        } else {
+                                alert('Bạn chưa kết nối mạng!')
+                        }
+                });
+
+
         }
 
         // hiện popup menu
@@ -234,7 +276,7 @@ export default class ListFilmComponent extends Component {
         openModal = () => {
                 //   console.log('this.state.userLocal', JSON.parse(this.state.userLocal));
                 this.state.menuRef.hide();
-                this.props.onFetchInfoUserLocal(this.state.user);
+                //  this.props.onFetchInfoUserLocal();
                 this.setState({
                         open: true
                 })
@@ -321,7 +363,7 @@ export default class ListFilmComponent extends Component {
                                         ></FlatList>
                                         {/*   popup information user */}
                                         {
-                                                this.state.user === null ? null : this.state.userLocal === null ? null : <Modal
+                                                this.state.user === null ? null : <Modal
                                                         offset={this.state.offset}
                                                         open={this.state.open}
                                                         //   modalDidOpen={this.modalDidOpen}
@@ -331,33 +373,31 @@ export default class ListFilmComponent extends Component {
                                                         <View style={{ alignItems: "center" }}>
                                                                 <Text style={{ fontSize: 20, marginBottom: 10, fontSize: 25, fontFamily: 'OpenSans-Bold', color: 'black' }}>Thông tin</Text>
                                                                 <Text style={style.textTitleInfo}>Họ tên</Text>
-                                                                <Text style={style.textContentInfo}>{JSON.parse(this.state.userLocal).full_name}</Text>
+                                                                <Text style={style.textContentInfo}>{this.state.user.full_name}</Text>
                                                                 <Text style={style.textTitleInfo}>Email</Text>
-                                                                <Text style={style.textContentInfo}>{JSON.parse(this.state.userLocal).email}</Text>
+                                                                <Text style={style.textContentInfo}>{this.state.user.email}</Text>
                                                                 <Text style={style.textTitleInfo}>Giới tính</Text>
-                                                                <Text style={style.textContentInfo}>{JSON.parse(this.state.userLocal).gender}</Text>
+                                                                <Text style={style.textContentInfo}>{this.state.user.gender}</Text>
                                                                 <Text style={style.textTitleInfo}>Ngày sinh</Text>
-                                                                <Text style={style.textContentInfo}>{JSON.parse(this.state.userLocal).birthday}</Text>
+                                                                <Text style={style.textContentInfo}>{this.state.user.birthday}</Text>
                                                                 <TouchableOpacity onPress={() => {
                                                                         this.closeModal();
                                                                         let user = {
                                                                                 id: this.state.user.id,
-                                                                                full_name: JSON.parse(this.state.userLocal).full_name,
-                                                                                email: JSON.parse(this.state.userLocal).email,
-                                                                                gender: JSON.parse(this.state.userLocal).gender,
-                                                                                birthday: JSON.parse(this.state.userLocal).birthday,
+                                                                                full_name: this.state.user.full_name,
+                                                                                email: this.state.user.email,
+                                                                                gender: this.state.user.gender,
+                                                                                birthday: this.state.user.birthday,
                                                                         }
                                                                         this.props.navigation.navigate('EditInfoUser', {
-                                                                                userLocal: user
+                                                                                userLocal: this.state.user,
+                                                                                callback: this.onRefreshUser.bind(this)
                                                                         });
                                                                 }}><Text style={style.textButtonInfo}>Chỉnh sửa</Text></TouchableOpacity>
                                                                 <TouchableOpacity onPress={this.closeModal}><Text style={style.textButtonInfo}>Hủy</Text></TouchableOpacity>
                                                         </View>
-
-
                                                 </Modal>
                                         }
-
                                 </View >
                         </ImageBackground>
                 );

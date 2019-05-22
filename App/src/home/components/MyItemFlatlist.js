@@ -44,9 +44,10 @@ export default class MyItemFlatlist extends Component {
                 //  console.log('shouldComponentUpdate', nextState.liked);
                 const liked = nextState.liked;
                 const oldLiked = this.state.liked;
-
+                const views = nextState.views;
+                const oldViews = this.state.views;
                 // If "liked" or "likeCount" is different, then update
-                return liked !== oldLiked;
+                return liked !== oldLiked || views !== oldViews;
         }
 
         onSearchTitleEnglish (value) {
@@ -61,7 +62,6 @@ export default class MyItemFlatlist extends Component {
 
         onSearchTitleVN (value) {
                 var pos = value.lastIndexOf('/');
-
                 // console.log('vi tri dau / = ',pos);
                 if (pos > -1) {
                         return value.slice(pos + 2);

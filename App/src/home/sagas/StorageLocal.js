@@ -16,9 +16,69 @@ const InfoUser = value => {
         };
 };
 
+const ListMovie = value => {
+        return {
+                list_movie: value
+        };
+};
+
+onUpdateViewMovie = async (movieId) => {
+        try {
+                let result = await AsyncStorage.getItem('movie');
+                console.log('result: ', JSON.parse(result));
+                let list = JSON.parse(result);
+                for (let m of list.list_movie) {
+                        if (m.id === movieId) {
+                                m.views++;
+                        }
+                }
+                await AsyncStorage.mergeItem('movie', JSON.stringify(list));
+                //  for (let m of result)
+        } catch (error) {
+                console.log('error onFetchMovieLocal: ', error);
+        }
+};
+
+onFetchMovieLocal = async (data) => {
+        try {
+                var result = await AsyncStorage.getItem('movie');
+                if (result === null) {
+                        await AsyncStorage.setItem('movie', JSON.stringify(ListMovie(data.data)));
+                } else {
+                        let receiver = JSON.parse(result);
+                        for (j = 0; j < data.data.length; j++) {
+                                var checkExistListMovie = false;
+                                for (i = 0; i < receiver.list_movie.length; i++) {
+                                        if (receiver.list_movie[i].id === data.data[j].id) {
+                                                checkExistListMovie = true;
+                                        }
+                                }
+                                if (!checkExistListMovie) {
+                                        receiver.list_movie.push(data.data[j]);
+                                }
+                        }
+                        await AsyncStorage.setItem('movie', JSON.stringify(receiver));
+                }
+                var log = await AsyncStorage.getItem('movie');
+                //   console.log('log onFetchMovieLocal: ', JSON.parse(log));
+                return JSON.parse(log);
+        } catch (error) {
+                console.log('error onFetchMovieLocal: ', error);
+        }
+};
+
+onFetchMovieOffline = async () => {
+        try {
+                var log = await AsyncStorage.getItem('movie');
+                //   console.log('log onFetchMovieLocal: ', JSON.parse(log));
+                return JSON.parse(log);
+        } catch (error) {
+                console.log('error onFetchMovieOffline: ', error);
+        }
+};
+
 
 onLike = async (value) => {
-        console.log(JSON.stringify(Like_dao(value)));
         try {
                 var data = await AsyncStorage.getItem(value.user);
                 if (data == null) {
@@ -61,21 +121,24 @@ onListLikeMoveOfUser = async (user) => {
         }
 };
 
-onFetchUser = async (user) => {
+onFetchUser = async () => {
         //   console.log('user onFetchUser: ', user);
         try {
-                let value = await AsyncStorage.getItem(user.id.concat('info'));
-                if (value === null) {
-                        await AsyncStorage.setItem(user.id.concat('info'), JSON.stringify(InfoUser(user)));
-                        return user;
-                } else {
-                        return value;
-                }
+                let value = await AsyncStorage.getItem('login');
+                return JSON.parse(value);
         } catch (error) {
                 console.log('error onFetchUser : ', error);
         }
 };
 
+onLogoutLocal = async () => {
+        try {
+                await AsyncStorage.removeItem('login');
+        } catch (error) {
+                console.log('error onLogoutLocal : ', error);
+        }
+};
+
 export const Local = {
-        onLike, onListLikeMoveOfUser, onFetchUser
+        onLike, onListLikeMoveOfUser, onFetchUser, onFetchMovieLocal, onFetchMovieOffline, onLogoutLocal, onUpdateViewMovie
 };

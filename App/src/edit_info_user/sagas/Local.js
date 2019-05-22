@@ -12,8 +12,8 @@ const InfoUser = value => {
 
 onUpdate = async (user) => {
         try {
-                await AsyncStorage.mergeItem(user.id.concat('info'), JSON.stringify(InfoUser(user)));
-                let value = await AsyncStorage.getItem(user.id.concat('info'));
+                await AsyncStorage.mergeItem('login', JSON.stringify(user));
+                let value = await AsyncStorage.getItem('login');
                 console.log('value onUpdate : ', value);
         } catch (error) {
                 console.error('InfoUser: ', error);

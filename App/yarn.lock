@@ -846,6 +846,11 @@
     xcode "^2.0.0"
     xmldoc "^0.4.0"
 
+"@react-native-community/netinfo@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-3.1.0.tgz#760ec7f6da4aa4fc187a3d03e801490621abd714"
+  integrity sha512-orOm3Up28xlVVmYWHl0RFKSQW38kPejqByqSrZDxQ2Yf2lVlEk95Sq6ug7Ez92bhs9V78/27QBAZQ2zOYKFLJA==
+
 "@react-navigation/core@~3.4.1":
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-3.4.1.tgz#8c7e0e53cfb8ccaf87afb76a2733f5e5fde20cd8"
@@ -5149,6 +5154,11 @@ react-native-simple-modal@^9.0.1:
   version "9.0.1"
   resolved "https://registry.yarnpkg.com/react-native-simple-modal/-/react-native-simple-modal-9.0.1.tgz#a753e9493f4bfcd8b9bf7812faaa56336bf56bde"
   integrity sha512-tAqIWFD2K1qZ71oQDEeyxC+3nwVEqwt/wnho7cbGzz1GB0HpxzC5qHbO5x39PUNgm3iX1DitUUQFhKYnxT3pTg==
+
+react-native-simple-radio-button@^2.7.3:
+  version "2.7.3"
+  resolved "https://registry.yarnpkg.com/react-native-simple-radio-button/-/react-native-simple-radio-button-2.7.3.tgz#c7227c0f963d6bbcfa245255d18a5a8b98fde41f"
+  integrity sha512-kiYRarFj7PXzV9fbQwMBiYwS4YnhrR4NZGT68atlFIoNFxZLrt5OMCDqXZqu6R6bUWKLndzPpO/nhXc6/OU1Mg==
 
 react-native-tab-view@^1.2.0, react-native-tab-view@^1.3.4:
   version "1.4.0"

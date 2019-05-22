@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import { FETCH_INFO_USER_FAILED, FETCH_INFO_USER_SUCCEEDED, FETCH_INFO_USER, LOGOUT_FAILED, LOGOUT_SUCCEEDED, LOGOUT, FETCH_LIST_LIKE_FAILED, FETCH_LIST_LIKE_SUCCEEDED, FETCH_LIST_LIKE, LIKE_FILM, XEM_FILM, FETCH_FILM, FETCH_FILM_SUCCEEDED, FETCH_FILM_FAILED, LIKE_FILM_SUCCEEDED, LIKE_FILM_FAILED } from './ActionTypes';
+import { ADD_COUNT_VIEW, FETCH_USER_LOCAL_FAILED, FETCH_USER_LOCAL_SUCCEEDED, FETCH_USER_LOCAL, FETCH_INFO_USER_FAILED, FETCH_INFO_USER_SUCCEEDED, FETCH_INFO_USER, LOGOUT_FAILED, LOGOUT_SUCCEEDED, LOGOUT, FETCH_LIST_LIKE_FAILED, FETCH_LIST_LIKE_SUCCEEDED, FETCH_LIST_LIKE, LIKE_FILM, XEM_FILM, FETCH_FILM, FETCH_FILM_SUCCEEDED, FETCH_FILM_FAILED, LIKE_FILM_SUCCEEDED, LIKE_FILM_FAILED } from './ActionTypes';
 
 export const fetchFilm = (value) => {
         return {
@@ -15,12 +15,12 @@ export const likeFilm = (value) => {
         };
 };
 
-export const xemFilm = (film) => {
+/* export const xemFilm = (film) => {
         return {
                 type: XEM_FILM,
                 film
         };
-};
+}; */
 
 export const fetchListLike = (userId) => {
         return {
@@ -94,10 +94,9 @@ export const logoutFailed = (error) => {
         };
 };
 
-export const fetchInfoUser = (user) => {
+export const fetchInfoUser = () => {
         return {
                 type: FETCH_INFO_USER,
-                user
         };
 };
 
@@ -112,5 +111,12 @@ export const fetchInfoUserFailed = (error) => {
         return {
                 type: FETCH_INFO_USER_FAILED,
                 error
+        };
+};
+
+export const onAddCountView = (movie) => {
+        return {
+                type: ADD_COUNT_VIEW,
+                movie
         };
 };
