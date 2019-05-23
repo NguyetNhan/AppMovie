@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Text, Image, TouchableOpacity, ImageBackground, StatusBar, ScrollView } from 'react-native';
 import { WebView } from 'react-native-webview';
 
+import NetInfo from "@react-native-community/netinfo";
+
 export default class DetailFilmComponent extends Component {
         static navigationOptions = ({ navigation }) => {
                 return {
@@ -25,7 +27,8 @@ export default class DetailFilmComponent extends Component {
                         movie: '',
                         user: '',
                         maxOfLine: 4,
-                        showWatch: false
+                        showWatch: false,
+                        network: false
                 }
                 this.onSearchTitleVN = this.onSearchTitleVN.bind(this)
                 this.onUpdateLinkVideo = this.onUpdateLinkVideo.bind(this)
@@ -40,6 +43,17 @@ export default class DetailFilmComponent extends Component {
                         movie: this.props.navigation.getParam('movie', ' '),
                         user: this.props.navigation.getParam('user', ' ')
                 })
+                NetInfo.fetch().then(state => {
+                        if (state.isConnected) {
+                                this.setState({
+                                        network: true,
+                                });
+                        } else {
+                                this.setState({
+                                        network: false,
+                                });
+                        }
+                });
         }
 
         componentDidMount () {
@@ -147,7 +161,13 @@ export default class DetailFilmComponent extends Component {
                                                 <View style={{ height: 1, backgroundColor: '#c68368', marginVertical: 15 }}></View>
                                                 <Text style={style.textTrailer}>Xem Trailer</Text>
                                         </View>
-                                        <WebView style={{ height: 300, flex: 1 }} source={{ uri: this.onUpdateLinkVideo(this.state.movie.link) }} />
+                                        {/* <WebView style={{ height: 300, flex: 1 }} source={{ uri: this.onUpdateLinkVideo(this.state.movie.link) }} /> */}
+                                        {
+                                                this.state.network ? <WebView style={{ height: 300, flex: 1 }} source={{ uri: this.onUpdateLinkVideo(this.state.movie.link) }} /> : <View style={{ height: 300, flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                                        <Image style={{ height: 50, width: 50 }} source={require('../../../assets/images/warning.png')} />
+                                                        <Text style={{ color: 'white' }}>Bạn chưa kết nối mạng!</Text>
+                                                </View>
+                                        }
                                 </View>
                         </ImageBackground>
                 )

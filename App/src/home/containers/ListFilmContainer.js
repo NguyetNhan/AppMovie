@@ -6,7 +6,12 @@ import ListFilmComponent from '../components/ListFilmComponent';
 
 const mapStateToProps = (state) => {
         console.log('container ListFilmComponent = ', state.ListFilmReducer);
-        if (state.ListFilmReducer.fetchInfoLocal !== undefined) {
+
+        if (state.ListFilmReducer.fetchInfoLocal === undefined && state.ListFilmReducer.fetchFilm === undefined) {
+                return {
+                        isLoading: false,
+                };
+        } else if (state.ListFilmReducer.fetchInfoLocal !== undefined) {
                 return {
                         userLocal: state.ListFilmReducer.fetchInfoLocal,
                 };

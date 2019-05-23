@@ -24,7 +24,8 @@ export default class ListFilmComponent extends Component {
                         menuRef: null,
                         open: false,
                         userLocal: null,
-                        movie: null
+                        movie: null,
+                        network: false
                 }
                 this.onClickButtonLike = this.onClickButtonLike.bind(this)
                 this.onClickButtonWatchMovie = this.onClickButtonWatchMovie.bind(this)
@@ -33,7 +34,10 @@ export default class ListFilmComponent extends Component {
 
         }
 
+
+
         componentWillMount () {
+
                 //  console.log('componentWillMount: ');
                 let user = this.props.navigation.getParam('user', null);
                 if (user === null) {
@@ -45,9 +49,12 @@ export default class ListFilmComponent extends Component {
                                 user: user,
                         })
                 }
+
         }
 
+
         componentDidMount () {
+
                 NetInfo.fetch().then(state => {
                         if (state.isConnected) {
                                 this.setState({
@@ -89,10 +96,18 @@ export default class ListFilmComponent extends Component {
                                 valuesListMovies: nextProps.movies.data,
                         });
                 }
+                if (nextProps.movies === undefined && nextProps.userLocal === undefined) {
+                        this.setState({
+                                //  user: user,
+                                isFetching: nextProps.isLoading,
+                        });
+                }
+
 
         }
 
         onRefresh () {
+
                 //    console.log('this.state.user: ', this.state.user);
                 NetInfo.fetch().then(state => {
                         if (state.isConnected) {
@@ -105,6 +120,7 @@ export default class ListFilmComponent extends Component {
         }
 
         onLoadingMovies () {
+
                 NetInfo.fetch().then(state => {
                         if (state.isConnected) {
                                 var page = this.state.movie.paging.current_page
@@ -310,6 +326,7 @@ export default class ListFilmComponent extends Component {
                                         <TouchableOpacity
                                                 ref={this.state.textRef}
                                                 onPress={this.showMenu}
+                                                style={{ marginRight: 5 }}
                                         >
                                                 <Image source={require('../../../assets/images/profile.png')} style={{ height: 25, width: 25 }}></Image>
                                         </TouchableOpacity>
@@ -319,15 +336,15 @@ export default class ListFilmComponent extends Component {
                                         this.state.user === null ? <Menu ref={this.setMenuRef}>
                                                 <MenuItem onPress={() => {
                                                         this.props.navigation.replace('Login')
-                                                }} ><Image source={require('../../../assets/images/login.png')} style={{ height: 20, width: 20, marginRight: 10 }} /> <Text>Đăng nhập</Text></MenuItem>
+                                                }} >{/* <Image source={require('../../../assets/images/login.png')} style={{ height: 20, width: 20, marginRight: 10 }} /> */} Đăng nhập</MenuItem>
 
                                         </Menu> : <Menu ref={this.setMenuRef}>
                                                         <MenuItem onPress={
                                                                 this.openModal
-                                                        } ><Image source={require('../../../assets/images/info.png')} style={{ height: 20, width: 20, marginRight: 10 }} /> <Text>Hồ sơ</Text></MenuItem>
+                                                        } >{/* <Image source={require('../../../assets/images/info.png')} style={{ height: 20, width: 20, marginRight: 10 }} /> */} Hồ sơ</MenuItem>
                                                         <MenuItem onPress={() => {
                                                                 this.onLogout(this.state.user)
-                                                        }}><Image source={require('../../../assets/images/logout.png')} style={{ height: 20, width: 20, marginRight: 10 }} /> <Text>Đăng xuất</Text></MenuItem>
+                                                        }}>{/* <Image source={require('../../../assets/images/logout.png')} style={{ height: 20, width: 20, marginRight: 10 }} /> */} Đăng xuất</MenuItem>
                                                 </Menu>
                                 }
                                 <View style={{ height: 1, backgroundColor: 'white' }}></View>
@@ -393,7 +410,7 @@ export default class ListFilmComponent extends Component {
                                                                                 userLocal: this.state.user,
                                                                                 callback: this.onRefreshUser.bind(this)
                                                                         });
-                                                                }}><Text style={style.textButtonInfo}>Chỉnh sửa</Text></TouchableOpacity>
+                                                                }}><Text style={style.textButtonInfo}>Cập nhật</Text></TouchableOpacity>
                                                                 <TouchableOpacity onPress={this.closeModal}><Text style={style.textButtonInfo}>Hủy</Text></TouchableOpacity>
                                                         </View>
                                                 </Modal>

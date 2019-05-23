@@ -1,8 +1,7 @@
-/* eslint-disable indent */
-/* eslint-disable no-unused-vars */
-// eslint-disable-next-line no-unused-vars
+
 import React, { Component } from 'react';
 import { View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
+
 
 export default class MyItemFlatlist extends Component {
         constructor (props) {
@@ -17,11 +16,14 @@ export default class MyItemFlatlist extends Component {
                         urlImageLike: this.props.urlImageLike,
                         textButtonLike: this.props.textButtonLike,
                         colorTextLike: this.props.colorTextLike,
+
                         //    userLogin:this.props.userLogin
                 };
                 this.onSearchTitleEnglish = this.onSearchTitleEnglish.bind(this);
                 this.onSearchTitleVN = this.onSearchTitleVN.bind(this);
         }
+
+
 
 
         componentWillReceiveProps (nextProps) {
@@ -71,7 +73,6 @@ export default class MyItemFlatlist extends Component {
         }
 
         render () {
-
                 return (
                         <View style={{ flex: 1, flexDirection: 'column' }}>
                                 <View style={style.container}>
@@ -79,6 +80,7 @@ export default class MyItemFlatlist extends Component {
                                                 style={style.image}
                                                 source={{ uri: this.state.imageMovie }}
                                         ></Image>
+
                                         <View style={style.content}>
                                                 <Text style={style.titleEnglish}>{this.onSearchTitleEnglish(this.state.title)}</Text>
                                                 <Text style={style.titleVN}>{this.onSearchTitleVN(this.state.title)}</Text>
@@ -117,7 +119,7 @@ export default class MyItemFlatlist extends Component {
 const style = StyleSheet.create({
         container: {
                 flexDirection: 'row',
-                margin: 10,
+                margin: 15,
         },
         image: {
                 flex: 1,
@@ -150,7 +152,7 @@ const style = StyleSheet.create({
         textContent: {
                 color: 'white',
                 fontSize: 15,
-                marginVertical: 10,
+                marginVertical: 15,
                 fontFamily: 'OpenSans-Regular',
         },
         containerButton: {
