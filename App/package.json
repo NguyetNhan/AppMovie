@@ -12,7 +12,7 @@
     "react": "16.8.3",
     "react-native": "0.59.8",
     "react-native-enhanced-popup-menu": "^0.6.1",
-    "react-native-fbsdk": "^0.8.0",
+    "react-native-fbsdk": "^3.0.0",
     "react-native-gesture-handler": "^1.2.1",
     "react-native-simple-modal": "^9.0.1",
     "react-native-simple-radio-button": "^2.7.3",
